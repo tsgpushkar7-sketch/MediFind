@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   // IMPORTANT: we'll explain this URL choice below
-  static const String baseUrl = "http://10.125.105.118:5000/api";
+  static const String baseUrl = "https://medifind-backend-jhzx.onrender.com";
 
   static Future<Map<String, dynamic>> login(
     String email,
@@ -52,7 +52,7 @@ class ApiService {
     }
   }
 
- static Future<Map<String, dynamic>> createRequest(
+  static Future<Map<String, dynamic>> createRequest(
     String customerId,
     String category,
     String itemText,
@@ -221,6 +221,7 @@ class ApiService {
       return {'success': false, 'error': data['error']};
     }
   }
+
   static Future<Map<String, dynamic>> registerShop(
     String ownerId,
     String shopName,
@@ -251,6 +252,7 @@ class ApiService {
       return {'success': false, 'error': data['error']};
     }
   }
+
   static Future<Map<String, dynamic>> toggleShopOpen(String shopId) async {
     final response = await http.patch(
       Uri.parse('$baseUrl/shops/$shopId/toggle-open'),
@@ -264,7 +266,11 @@ class ApiService {
       return {'success': false, 'error': data['error']};
     }
   }
-  static Future<Map<String, dynamic>> blockCustomer(String shopId, String customerId) async {
+
+  static Future<Map<String, dynamic>> blockCustomer(
+    String shopId,
+    String customerId,
+  ) async {
     final response = await http.patch(
       Uri.parse('$baseUrl/shops/$shopId/block'),
       headers: {'Content-Type': 'application/json'},
@@ -279,6 +285,7 @@ class ApiService {
       return {'success': false, 'error': data['error']};
     }
   }
+
   static Future<Map<String, dynamic>> submitRating(
     String requestId,
     String shopId,
@@ -306,6 +313,7 @@ class ApiService {
       return {'success': false, 'error': data['error']};
     }
   }
+
   static Future<Map<String, dynamic>> getPeakHours() async {
     final response = await http.get(Uri.parse('$baseUrl/analytics/peak-hours'));
     final data = jsonDecode(response.body);
@@ -317,7 +325,9 @@ class ApiService {
   }
 
   static Future<Map<String, dynamic>> getDemandTrend() async {
-    final response = await http.get(Uri.parse('$baseUrl/analytics/demand-trend'));
+    final response = await http.get(
+      Uri.parse('$baseUrl/analytics/demand-trend'),
+    );
     final data = jsonDecode(response.body);
     if (response.statusCode == 200) {
       return {'success': true, 'data': data};
@@ -325,6 +335,7 @@ class ApiService {
       return {'success': false, 'error': 'Failed to load'};
     }
   }
+
   static Future<void> saveFcmToken(String userId, String fcmToken) async {
     await http.patch(
       Uri.parse('$baseUrl/users/$userId/fcm-token'),
