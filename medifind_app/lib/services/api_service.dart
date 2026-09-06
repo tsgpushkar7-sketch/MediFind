@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   // IMPORTANT: we'll explain this URL choice below
-  static const String baseUrl = "https://medifind-backend-jhzx.onrender.com";
+  static const String baseUrl = "https://medifind-backend-jhzx.onrender.com/api";
 
   static Future<Map<String, dynamic>> login(
     String email,
