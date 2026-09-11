@@ -25,11 +25,13 @@ router.post('/create', async (req, res) => {
       otpExpiry,
     });
 
-    const savedUser = await newUser.save();
-
-    await sendOtpEmail(email, otp);
+        const savedUser = await newUser.save();
 
     res.status(201).json({ message: 'Registered. Check your email for the verification code.', userId: savedUser._id });
+
+    sendOtpEmail(email, otp).catch((err) =>
+      console.error('Failed to send OTP email:', err.message)
+    );
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
