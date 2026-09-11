@@ -335,6 +335,21 @@ class ApiService {
       return {'success': false, 'error': 'Failed to load'};
     }
   }
+    static Future<Map<String, dynamic>> verifyOtp(String userId, String otp) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/users/verify-otp'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'userId': userId, 'otp': otp}),
+    );
+
+    final data = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      return {'success': true, 'data': data};
+    } else {
+      return {'success': false, 'error': data['error']};
+    }
+  }
 
   static Future<void> saveFcmToken(String userId, String fcmToken) async {
     await http.patch(

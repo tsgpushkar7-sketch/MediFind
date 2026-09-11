@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
+import 'otp_verification_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -43,9 +44,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
       isLoading = false;
     });
 
-    if (result['success']) {
+        if (result['success']) {
       if (mounted) {
-        Navigator.pop(context);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OtpVerificationScreen(
+              userId: result['data']['userId'],
+              email: emailController.text.trim(),
+            ),
+          ),
+        );
       }
     } else {
       setState(() {
